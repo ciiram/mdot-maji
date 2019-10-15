@@ -1,10 +1,11 @@
 #include "select_program.h"
 
-#if PROGRAM == DEPTH
+#if PROGRAM == DEPTH_GPS
 
 #include "mDot.h"
 #include "ChannelPlans.h"
 #include "MTSText.h"
+#include "GPS.h"
 #include "device_addresses.h"
 #include "utils.h"
 
@@ -31,6 +32,7 @@ std::vector<uint8_t> data_session_key_vector(data_session_key, data_session_key 
 
 
 static AnalogIn range_sensor(A0); // water level sensor
+static GPS gps(PA_2, PB_3);
 const uint8_t DATA_RATE = 0;
 const uint32_t TX_POWER = 14;
 
@@ -59,11 +61,18 @@ int main () {
   dot->setTxDataRate(DATA_RATE);
 
   while (1) {
-
+    //measure water level
     uint16_t height;
     height = range_sensor.read_u16();
 
     printf("\rLevel: %d\n", height);
+
+    //get gps
+    if (gps.sample() == 1) {
+      printf("\rLongitude: %.2f\t Latitude: %.2f\n",
+             gps.longitude,
+             gps.latitude);
+    }
 
     std::vector<uint8_t> tx_data;
     tx_data.push_back((height >> 8) & 0xFF);
