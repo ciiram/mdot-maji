@@ -1,0 +1,7 @@
+.mbed
+mbed_settings.py*
+BUILD/
+ISL29011/
+__pycache__/
+libmDot-mbed5/
+mbed-os/
