@@ -32,7 +32,7 @@ std::vector<uint8_t> data_session_key_vector(data_session_key, data_session_key 
 
 
 static AnalogIn range_sensor(A0); // water level sensor
-static GPS gps(PA_2, PB_3);
+static GPS gps(PA_2, PA_3);
 const uint8_t DATA_RATE = 0;
 const uint32_t TX_POWER = 14;
 
